@@ -1,60 +1,95 @@
-// using System.Data;
-// using SistemaART.DAO.Dapper.BaseRepository;
-// using SistemaART.DAO.Dapper.Models;
-// using SistemaART.DAO.Dapper.Repository.Contratos;
+using System.Data;
+using Dapper;
+using SistemaART.DAO.Dapper.BaseRepository;
+using SistemaART.DAO.Dapper.Models;
+using SistemaART.DAO.Dapper.Repository.Contratos;
 
-// namespace SistemaART.DAO.Dapper.Repository;
+namespace SistemaART.DAO.Dapper.Repository;
 
-// public class PitchRepository : BaseRepository<PitchModel>, IPitchRepository
-// {
-//     public PitchRepository(IDbConnection connection) : base(connection)
-//     {
-//     }
+public class PitchRepository : BaseRepository<PitchModel>, IPitchRepository
+{   
+    private readonly IDbConnection _connection;
+    public PitchRepository(IDbConnection connection) : base(connection)
+    {
+        _connection = connection;
+    }
 
 
-//     public Task<IEnumerable<PitchModel>> ListarPitch()
-//     {
-//         const string selectQuery = @"SELECT 
-//                                     B.[NOME] AS NOME_PITCH, 
-//                                     B.DESCRICAO AS PITCH_DESCRICAO, 
-//                                     C.NOME AS NOME_TIME, 
-//                                     B.SITUACAO AS SITUACAO_PITCH,
-//                                     A. ID_EPICO,
-//                                     A.NOME AS NOME_EPICO,  
-//                                     A.DATA_INICIO, A.DATA_FIM, 
-//                                     A.ID_SITUACAO,  A.USUARIO_ATUALIZACAO, 
-//                                     A.DATA_ATUALIZACAO
-//                                     FROM [dbo].[EPICO] A
-//                                     INNER JOIN [dbo].[PITCH] B ON A.ID_PITCH  = B.ID_PITCH
-//                                     INNER JOIN [dbo].[TIME] C ON B.ID_TIME = C.ID_TIME ";
+    public async Task<IEnumerable<PitchModel>> ListarPitchPorUsuario(string usuario)
+    {
+        const string selectQuery = @"SELECT 
+                                        B.ID_PITCH AS IdPitch, 
+                                        B.NOME AS NomePitch, 
+                                        B.USUARIO_ATUALIZACAO AS UsuarioAtualizacao                                        
+                                    FROM SITUACAO A
+                                    INNER JOIN PITCH B ON B.SITUACAO = A.ID_SITUACAO 
+                                    INNER JOIN [TIME] C ON B.ID_TIME = C.ID_TIME
+                                    WHERE B.USUARIO_ATUALIZACAO =  @Usuario";
         
-//         throw new NotImplementedException();
-//     }
+        var parameters = new { Usuario = usuario };
+        var pitchResult = await _connection.QueryAsync<PitchModel>(selectQuery, parameters);
+        return pitchResult;
+    }
+        public async Task<IEnumerable<PitchModel>> ListarPitchPorId(int id)
+    {
+        const string selectQuery = @"SELECT 
+                                        B.ID_PITCH AS IdPitch, 
+                                        C.ID_TIME AS IdTime,
+                                        B.NOME AS NomePitch, 
+                                        C.NOME AS NomeTime, 
+                                        B.DESCRICAO AS Descricao, 
+                                        B.DATA_COMITE AS DataComite,
+                                        B.SITUACAO AS Situacao, 
+                                        A.DESCRICAO AS SituacaoDescricao, 
+                                        A.PERMITE_ANDAMENTO AS SituacaoAndamento, 
+                                        B.USUARIO_ATUALIZACAO AS UsuarioAtualizacao, 
+                                        B.DATA_ATUALIZACAO AS DataAtualizacao  
+                                    FROM SITUACAO A
+                                    INNER JOIN PITCH B ON B.SITUACAO = A.ID_SITUACAO 
+                                    INNER JOIN [TIME] C ON B.ID_TIME = C.ID_TIME
+                                    WHERE B.ID_PITCH =  @PitchId";
+        
+        var parameters = new { PitchId = id };
+        var pitchResult = await _connection.QueryAsync<PitchModel>(selectQuery, parameters);
+        return pitchResult;
+    }
 
-//     public Task<PitchModel> ObterPitchPeloId(int id)
-//     {
-//         throw new NotImplementedException();
-//     }
-//     public Task<int> AdicionarPitch(PitchModel pitch)      //ESSE VAI SER O MEU METODO LISTA PITCH
-//     {
-//                 const string selectQuery = @"SELECT 
-//                                             A.[NOME] AS NOME_PITCH, 
-//                                             A.DESCRICAO , 
-//                                             B.NOME AS NOME_TIME, 
-//                                             A.SITUACAO 
-//                                             FROM PITCH A INNER JOIN [dbo].[TIME] B
-//                                             ON A.ID_TIME = B.ID_TIME ";
+    public async Task<IEnumerable<PitchModel>> ListarTodos()
+    {
+        const string selectQuery = @"SELECT 
+                                        B.ID_PITCH AS IdPitch, 
+                                        C.ID_TIME AS IdTime,
+                                        B.NOME AS NomePitch, 
+                                        C.NOME AS NomeTime, 
+                                        B.DESCRICAO AS Descricao, 
+                                        B.DATA_COMITE AS DataComite,
+                                        B.SITUACAO AS Situacao, 
+                                        A.DESCRICAO AS SituacaoDescricao, 
+                                        A.PERMITE_ANDAMENTO AS SituacaoAndamento, 
+                                        B.USUARIO_ATUALIZACAO AS UsuarioAtualizacao, 
+                                        B.DATA_ATUALIZACAO AS DataAtualizacao  
+                                    FROM SITUACAO A
+                                    INNER JOIN PITCH B ON B.SITUACAO = A.ID_SITUACAO 
+                                    INNER JOIN [TIME] C ON B.ID_TIME = C.ID_TIME
+                                    ";
+        return await ListarTodos(selectQuery);
+    }
 
-//     }
 
-//     public Task AtualizarPitch(PitchModel pitch)
-//     {
-//         throw new NotImplementedException();
-//     }
+    // public Task<PitchModel> ObterPitchPeloId(int id)
+    // {
+    //     throw new NotImplementedException();
+    // }
 
-//     public Task DeletarPitch(int id)
-//     {
-//         throw new NotImplementedException();
-//     }
+    // public Task AtualizarPitch(PitchModel pitch)
+    // {
+    //     throw new NotImplementedException();
+    // }
 
-// }
+    // public Task DeletarPitch(int id)
+    // {
+    //     throw new NotImplementedException();
+    // }
+
+
+}

@@ -39,7 +39,10 @@ builder.Services.AddScoped<IDbConnection>(db =>
 builder.Services.AddScoped<IAutenticacaoRepository, AutenticacaoRepository>();
 builder.Services.AddScoped<IAutenticacaoService, AutenticacaoService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-
+builder.Services.AddScoped<IPitchRepository, PitchRepository>();
+builder.Services.AddScoped<IPitchService, PitchService>();
+builder.Services.AddScoped<IEpicoService, EpicoService>();
+builder.Services.AddScoped<IEpicoRepository, EpicoRepository>();
 // Configure Swagger
 builder.Services.AddSwaggerGen(c => 
 {

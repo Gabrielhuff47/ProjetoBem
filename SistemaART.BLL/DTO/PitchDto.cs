@@ -1,6 +1,6 @@
-namespace SistemaART.DAO.Dapper.Models;
+namespace SistemaART.BLL.DTO;
 
-public class PitchModel
+public class PitchDto
 {
     public int IdPitch { get; set;}
     public int IdTime  { get; set;}

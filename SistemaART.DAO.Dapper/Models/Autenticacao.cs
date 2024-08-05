@@ -9,4 +9,5 @@ public class Autenticacao
 
     [Required(ErrorMessage = "O Campo de senha é obrigatório")]
     public string Senha { get; set; }
+    
 }

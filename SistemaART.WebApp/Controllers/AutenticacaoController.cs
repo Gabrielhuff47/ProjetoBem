@@ -24,8 +24,7 @@ public class AutenticacaoController : ControllerBase
         var resultado = await _autenticacaoService.ValidarUsuario(Entrar.Usuario, Entrar.Senha);
          Console.WriteLine(resultado);
          if (resultado.Trim() != "Usuario logou")
-         {Console.WriteLine(resultado + "RESULTADO2");
-
+         {
          return Unauthorized (new {Message = resultado.Trim()});
          }
 
