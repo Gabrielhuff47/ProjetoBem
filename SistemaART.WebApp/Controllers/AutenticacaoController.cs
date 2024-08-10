@@ -33,13 +33,7 @@ public class AutenticacaoController : ControllerBase
         return Ok(new {Message = "Login bem-sucedido", Token = token});
     
     }
-
-    [HttpGet("Dados")]
-        [Authorize]
-        public IActionResult GetDados()
-        {
-            return Ok(new { Message = "Acesso autorizado", Data = "Aqui estão seus dados protegidos." });
-        }
+    
     }
 
    

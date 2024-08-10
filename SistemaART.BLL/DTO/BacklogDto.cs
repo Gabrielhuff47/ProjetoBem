@@ -1,7 +1,7 @@
 namespace SistemaART.BLL.DTO;
 
-public class PitchReduzidoDto
+public class BacklogDto
 {
-    public int IdPitch { get; set; }
+    public string NomeTime { get; set; }
     public string NomePitch { get; set; }
 }

@@ -7,30 +7,29 @@ namespace SistemaART.BLL;
 
 public class PitchService : IPitchService
 {
-    private readonly IPitchRepository _pitchrepository;
+    private readonly IPitchRepository _pitchRepository;
     public PitchService(IPitchRepository pitchRepository)
     {
-        _pitchrepository = pitchRepository;
+        _pitchRepository = pitchRepository;
     }
     public async Task<IEnumerable<PitchReduzidoDto>> ListarPitchPorUsuario(string usuario)
     {
-         var pitches = await _pitchrepository.ListarPitchPorUsuario(usuario);
+         var pitches = await _pitchRepository.ListarPitchPorUsuario(usuario);
         return pitches.Select(p => new PitchReduzidoDto
         {
             IdPitch = p.IdPitch,
             NomePitch = p.NomePitch,
-            UsuarioAtualizacao = p.UsuarioAtualizacao
         });
-    }//return (await _pitchrepository.ListarPitchPorUsuario(usuario)).Convert();
+    }
     
     public async Task<IEnumerable<PitchDto>> ListarPitchPorId(int id)
     {
-        return (await _pitchrepository.ListarPitchPorId(id)).Convert();
+        return (await _pitchRepository.ListarPitchPorId(id)).Convert();
     }
 
     public async Task<IEnumerable<PitchDto>> ListarTodos()
     {
-        return (await _pitchrepository.ListarTodos()).Convert();
+        return (await _pitchRepository.ListarTodos()).Convert();
     }
 
 }

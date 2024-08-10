@@ -50,6 +50,7 @@ public class PitchController : ControllerBase
         }
   
         [HttpGet("ConsultaPitchPorId")]
+        [Authorize]
     
         
         public async Task<IActionResult> ListarPitchPorId(int id)

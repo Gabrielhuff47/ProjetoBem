@@ -43,6 +43,9 @@ builder.Services.AddScoped<IPitchRepository, PitchRepository>();
 builder.Services.AddScoped<IPitchService, PitchService>();
 builder.Services.AddScoped<IEpicoService, EpicoService>();
 builder.Services.AddScoped<IEpicoRepository, EpicoRepository>();
+builder.Services.AddScoped<IArtRepository, ArtRepository>();
+builder.Services.AddScoped<IArtService, ArtService>();
+
 // Configure Swagger
 builder.Services.AddSwaggerGen(c => 
 {

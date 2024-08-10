@@ -12,6 +12,13 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         _connection = connection;
     }
+    public async Task<IEnumerable<T>> ListarArt(string selectQuery)
+    {
+        using IDbConnection dbConnection = _connection;
+        dbConnection.Open();
+
+        return await dbConnection.QueryAsync<T>(selectQuery);
+    }
     public async Task<IEnumerable<T?>> ConsultarEpicoPorCaracteres(string nomeFiltro, string selectQuery)
     {
         using IDbConnection dbConnection = _connection;

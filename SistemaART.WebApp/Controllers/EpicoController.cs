@@ -19,19 +19,30 @@ public class EpicoController : ControllerBase
     }
 
     [HttpPost("GravarEpico")]
-    public async Task<IActionResult> Post(EpicoDto epico)
+    public async Task<IActionResult> Post(EpicoGravarDto epico)
     {
         var usuarioAtualizacao = User.FindFirst(ClaimTypes.Name)?.Value;
         epico.UsuarioAtualizacao = usuarioAtualizacao.Trim();
         await _epicoService.GravarEpico(epico);
-        return CreatedAtAction(nameof(Post), new { id = epico.IdEpico }, epico);
+        return CreatedAtAction(nameof(Post), new {}, epico);
 
     }
 
     [HttpGet("id")]
     public async Task<IActionResult> Get(int id)
     {
+        var usuario = User.FindFirst(ClaimTypes.Name)?.Value.Trim();
         var epico = await _epicoService.ConsultarEpicoPorId(id);
+
+        if (epico == null)
+        {
+            return NotFound();
+        }
+
+        if (epico.UsuarioAtualizacao.Trim() != usuario)
+        {
+            return Unauthorized();
+        }
 
         return Ok(epico);
     }
@@ -39,9 +50,10 @@ public class EpicoController : ControllerBase
     [HttpGet("ListarEpicos")]
     public async Task<IActionResult> Get()
     {
-        var usuario = User.FindFirst(ClaimTypes.Name)?.Value;
-        var epicos = await _epicoService.ListarEpico();
-        return Ok(epicos);
+        var usuario = User.FindFirst(ClaimTypes.Name)?.Value.Trim();
+        var epicosDoUsuario = await _epicoService.ListarEpico(usuario);
+
+        return Ok(epicosDoUsuario);
     }
 
     [HttpGet("ConsultaEpicoPorCaracteres")]

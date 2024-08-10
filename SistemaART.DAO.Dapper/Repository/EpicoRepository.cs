@@ -18,22 +18,26 @@ public class EpicoRepository : BaseRepository<EpicoModel>, IEpicoRepository
     }
 
 
-    public async Task<IEnumerable<EpicoModel>> ListarEpico()
+    public async Task<IEnumerable<EpicoModel>> ListarEpico(string usuario)
     {
         const string selectQuery = @"SELECT 
 										A.ID_EPICO AS IdEpico,
-										TRIM(A.NOME) AS NomeEpico
+										TRIM(A.NOME) AS NomeEpico,
+                                        A.USUARIO_ATUALIZACAO AS usuarioAtualizacao
 										FROM EPICO A
 										INNER JOIN SITUACAO B ON B.ID_SITUACAO = A.ID_SITUACAO
+                                        WHERE A.USUARIO_ATUALIZACAO =@Usuario
                                         ORDER BY NomeEpico";
 
+        var parameters = new { Usuario = usuario};
+        var epicoResultado = await _connection.QueryAsync<EpicoModel>(selectQuery, parameters);
+        return epicoResultado;
 
-        var resultado = await _connection.QueryAsync<EpicoModel>(selectQuery);
-        return resultado.Select(e => new EpicoModel
-        {
-            IdEpico = e.IdEpico,
-            NomeEpico = e.NomeEpico
-        });
+    }
+     public async Task<EpicoModel?> ObterEpicoPorPitchId(int idPitch)
+    {
+        const string query = "SELECT ID_PITCH FROM EPICO WHERE ID_PITCH = @idPitch";
+         return await _connection.QueryFirstOrDefaultAsync<EpicoModel>(query, new { IdPitch = idPitch });
     }
 
     public async Task GravarEpico(EpicoModel epico)
@@ -57,12 +61,13 @@ public class EpicoRepository : BaseRepository<EpicoModel>, IEpicoRepository
     {
         const string selectQuery = @"SELECT 
 										A.ID_EPICO AS IdEpico,
+                                        A.ID_PITCH AS IdPitch,
 										A.NOME AS NomeEpico,
 										A.DATA_INICIO AS DataInicio,
 										A.DATA_FIM AS DataFim,
 										A.ID_SITUACAO AS IdSituacao,
 										B.DESCRICAO As Descricao, 
-										A.USUARIO_ATUALIZACAO AS UsuarioAtualizacao,
+										TRIM(A.USUARIO_ATUALIZACAO) AS UsuarioAtualizacao,
 										A.DATA_ATUALIZACAO AS DataAtualizacao
 										FROM EPICO A
 										INNER JOIN SITUACAO B ON B.ID_SITUACAO = A.ID_SITUACAO
@@ -75,6 +80,7 @@ public class EpicoRepository : BaseRepository<EpicoModel>, IEpicoRepository
        const string selectQuery = @"
        SELECT 
 										A.ID_EPICO AS IdEpico,
+                                        A.ID_PITCH AS IdPitch,
 										A.NOME AS NomeEpico,
 										A.DATA_INICIO AS DataInicio,
 										A.DATA_FIM AS DataFim,

@@ -27,8 +27,8 @@ public class PitchRepository : BaseRepository<PitchModel>, IPitchRepository
                                     WHERE B.USUARIO_ATUALIZACAO =  @Usuario";
         
         var parameters = new { Usuario = usuario };
-        var pitchResult = await _connection.QueryAsync<PitchModel>(selectQuery, parameters);
-        return pitchResult;
+        var pitchResultado = await _connection.QueryAsync<PitchModel>(selectQuery, parameters);
+        return pitchResultado;
     }
         public async Task<IEnumerable<PitchModel>> ListarPitchPorId(int id)
     {
