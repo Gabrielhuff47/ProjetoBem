@@ -75,21 +75,4 @@ public class PitchRepository : BaseRepository<PitchModel>, IPitchRepository
         return await ListarTodos(selectQuery);
     }
 
-
-    // public Task<PitchModel> ObterPitchPeloId(int id)
-    // {
-    //     throw new NotImplementedException();
-    // }
-
-    // public Task AtualizarPitch(PitchModel pitch)
-    // {
-    //     throw new NotImplementedException();
-    // }
-
-    // public Task DeletarPitch(int id)
-    // {
-    //     throw new NotImplementedException();
-    // }
-
-
 }

@@ -90,22 +90,6 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
 ;
         return await dbConnection.QueryFirstOrDefaultAsync<T>(selectQuery, param);
     }
-
-    public async Task Adicionar(DynamicParameters parameters, string insertQuery)
-    {
-        using IDbConnection dbConnection = _connection;
-        dbConnection.Open();
-
-        await dbConnection.ExecuteAsync(insertQuery, parameters);
-    }
-
-    public async Task AdicionarEmMultiplos(IEnumerable<T>TListEntity, string insertQuery)
-    {
-        using IDbConnection dbConnection = _connection;
-        dbConnection.Open();
-
-        await _connection.ExecuteAsync(insertQuery, TListEntity);
-    }
     public async Task Atualizar(DynamicParameters parameters, string updateQuery)
     {
         using IDbConnection dbConnection = _connection;

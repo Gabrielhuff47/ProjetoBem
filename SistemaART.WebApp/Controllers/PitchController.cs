@@ -4,7 +4,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SistemaART.BLL.Contratos;
-using SistemaART.DAO.Dapper.Models;
+
 
 namespace SistemaART.WebApp.Controllers;
 
@@ -29,8 +29,6 @@ public class PitchController : ControllerBase
         [Authorize]
         public async Task<IActionResult> ListaPitchPorUsuario()
         {
-            
-            
                 var usuario = User.FindFirst(ClaimTypes.Name)?.Value;
                 var pitches = await _pitchService.ListarPitchPorUsuario(usuario);
                 if (pitches == null || !pitches.Any())
@@ -43,19 +41,17 @@ public class PitchController : ControllerBase
   
         [HttpGet("ConsultaPitchPorId")]
         [Authorize]
-    
         public async Task<IActionResult> ListarPitchPorId(int id)
         {
             var pitchPorId = await _pitchService.ListarPitchPorId(id);
             var usuario = User.FindFirst(ClaimTypes.Name)?.Value;
             var pitch = pitchPorId.FirstOrDefault();
-
             if (pitch == null)
             {
                 return NotFound("pitch não existente!");
             }
 
-            if(pitch.SituacaoAndamento =="S" && pitch.UsuarioAtualizacao.Trim() == usuario.Trim())
+            if(pitch.SituacaoAndamento =="S" && pitch.UsuarioAtualizacao == usuario)
             {
                 return Ok(pitch);
             } 
