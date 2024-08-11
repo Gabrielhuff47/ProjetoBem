@@ -43,9 +43,9 @@ public class PitchController : ControllerBase
         [Authorize]
         public async Task<IActionResult> ListarPitchPorId(int id)
         {
-            var pitchPorId = await _pitchService.ListarPitchPorId(id);
+            var pitch = await _pitchService.ListarPitchPorId(id);
             var usuario = User.FindFirst(ClaimTypes.Name)?.Value;
-            var pitch = pitchPorId.FirstOrDefault();
+
             if (pitch == null)
             {
                 return NotFound("pitch não existente!");

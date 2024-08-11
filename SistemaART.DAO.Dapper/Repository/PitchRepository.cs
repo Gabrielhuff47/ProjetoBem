@@ -15,7 +15,7 @@ public class PitchRepository : BaseRepository<PitchModel>, IPitchRepository
     }
 
 
-    public async Task<IEnumerable<PitchModel>> ListarPitchPorUsuario(string usuario)
+    public async Task<IEnumerable<PitchReduzidoModel>> ListarPitchPorUsuario(string usuario)
     {
         const string selectQuery = @"SELECT 
                                         B.ID_PITCH AS IdPitch, 
@@ -27,10 +27,10 @@ public class PitchRepository : BaseRepository<PitchModel>, IPitchRepository
                                     WHERE B.USUARIO_ATUALIZACAO =  @Usuario";
         
         var parameters = new { Usuario = usuario };
-        var pitchResultado = await _connection.QueryAsync<PitchModel>(selectQuery, parameters);
+        var pitchResultado = await _connection.QueryAsync<PitchReduzidoModel>(selectQuery, parameters);
         return pitchResultado;
     }
-        public async Task<IEnumerable<PitchModel>> ListarPitchPorId(int id)
+        public async Task<PitchModel> ListarPitchPorId(int id)
     {
         const string selectQuery = @"SELECT 
                                         B.ID_PITCH AS IdPitch, 
@@ -50,8 +50,8 @@ public class PitchRepository : BaseRepository<PitchModel>, IPitchRepository
                                     WHERE B.ID_PITCH =  @PitchId";
         
         var parameters = new { PitchId = id };
-        var pitchResult = await _connection.QueryAsync<PitchModel>(selectQuery, parameters);
-        return pitchResult;
+        var pitchResultado = await _connection.QuerySingleOrDefaultAsync<PitchModel>(selectQuery, parameters);
+        return pitchResultado;
     }
 
     public async Task<IEnumerable<PitchModel>> ListarTodos()

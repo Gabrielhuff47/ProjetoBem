@@ -22,7 +22,7 @@ public class PitchService : IPitchService
         });
     }
     
-    public async Task<IEnumerable<PitchDto>> ListarPitchPorId(int id)
+    public async Task<PitchDto> ListarPitchPorId(int id)
     {
         return (await _pitchRepository.ListarPitchPorId(id)).Convert();
     }
