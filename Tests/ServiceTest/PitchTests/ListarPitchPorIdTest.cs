@@ -1,12 +1,11 @@
-using System.Diagnostics;
 using Moq;
 using SistemaART.BLL;
 using SistemaART.DAO.Dapper.Models;
 using SistemaART.DAO.Dapper.Repository.Contratos;
 
-namespace Tests.ServiceTest;
+namespace Tests.ServiceTest.PitchTests;
 
-public class ListarPitchPorId
+public class ListarPitchPorIdTest
 {
     [Fact]
     public async Task ListaPitch_Id_RetornaPitch()

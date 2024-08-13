@@ -35,6 +35,7 @@ builder.Services.AddAuthentication(x =>
 builder.Services.AddControllers();
 builder.Services.AddScoped<IDbConnection>(db => 
     new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<IDapperWrapper, DapperWrapper>();
 
 builder.Services.AddScoped<IAutenticacaoRepository, AutenticacaoRepository>();
 builder.Services.AddScoped<IAutenticacaoService, AutenticacaoService>();

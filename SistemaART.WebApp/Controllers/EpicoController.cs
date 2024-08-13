@@ -24,7 +24,7 @@ public class EpicoController : ControllerBase
         var usuarioAtualizacao = User.FindFirst(ClaimTypes.Name)?.Value;
         epico.UsuarioAtualizacao = usuarioAtualizacao.Trim();
         await _epicoService.GravarEpico(epico);
-        return CreatedAtAction(nameof(Post), new {}, epico);
+        return CreatedAtAction(nameof(Post), new { }, epico);
 
     }
 
@@ -59,7 +59,8 @@ public class EpicoController : ControllerBase
     [HttpGet("ConsultaEpicoPorCaracteres")]
     public async Task<IActionResult> Get(string nomeFiltro)
     {
-        var epicos = await _epicoService.ConsultarEpicoPorCaracteres(nomeFiltro);
+        var usuarioAtualizacao = User.FindFirst(ClaimTypes.Name)?.Value.Trim();
+        var epicos = await _epicoService.ConsultarEpicoPorCaracteres(nomeFiltro, usuarioAtualizacao);
         if (!epicos.Any())
         {
             return NotFound("Épico inexistente");
@@ -72,6 +73,19 @@ public class EpicoController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
+        var usuario = User.FindFirst(ClaimTypes.Name)?.Value.Trim();
+        var epico = await _epicoService.ConsultarEpicoPorId(id);
+
+        if (epico == null)
+        {
+            return NotFound("Épico não encontrado.");
+        }
+
+        if (epico.UsuarioAtualizacao.Trim() != usuario)
+        {
+            return Unauthorized("Voce nao tem permissão para deletar esse epico!");
+        }
+
         await _epicoService.DeletarEpico(id);
         return NoContent();
     }

@@ -32,4 +32,14 @@ public class PitchService : IPitchService
         return (await _pitchRepository.ListarTodos()).Convert();
     }
 
+    public async Task AtualizarSituacaoPitch(int idPitch, int novaSituacao)
+    {
+        var pitch = await _pitchRepository.ListarPitchPorId(idPitch);
+       if(pitch == null)
+       {
+         throw new ArgumentException("Pitch não encontrado");
+       }
+        pitch.Situacao = novaSituacao;
+        await _pitchRepository.AtualizarPitchSituacao(pitch.IdPitch, novaSituacao);
+    }
 }

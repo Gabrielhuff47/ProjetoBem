@@ -1,7 +1,5 @@
-using System.ComponentModel.DataAnnotations;
+
 using System.Data;
-using System.Reflection.Metadata.Ecma335;
-using System.Security.AccessControl;
 using Dapper;
 using SistemaART.DAO.Dapper.BaseRepository;
 using SistemaART.DAO.Dapper.Models;
@@ -18,7 +16,7 @@ public class EpicoRepository : BaseRepository<EpicoModel>, IEpicoRepository
     }
 
 
-    public async Task<IEnumerable<EpicoModel>> ListarEpico(string usuario)
+    public async Task<IEnumerable<EpicoReduzidoModel>> ListarEpico(string usuario)
     {
         const string selectQuery = @"SELECT 
 										A.ID_EPICO AS IdEpico,
@@ -30,7 +28,7 @@ public class EpicoRepository : BaseRepository<EpicoModel>, IEpicoRepository
                                         ORDER BY NomeEpico";
 
         var parameters = new { Usuario = usuario};
-        var epicoResultado = await _connection.QueryAsync<EpicoModel>(selectQuery, parameters);
+        var epicoResultado = await _connection.QueryAsync<EpicoReduzidoModel>(selectQuery, parameters);
         return epicoResultado;
 
     }
@@ -90,13 +88,13 @@ public class EpicoRepository : BaseRepository<EpicoModel>, IEpicoRepository
 										A.DATA_ATUALIZACAO AS DataAtualizacao
 										FROM EPICO A
 										INNER JOIN SITUACAO B ON B.ID_SITUACAO = A.ID_SITUACAO
-										WHERE A.NOME LIKE @NomeFiltro";
+										WHERE A.NOME LIKE @NomeFiltro ";
     
-     var resultado = await _connection.QueryAsync<EpicoModel>(selectQuery, new { nomeFiltro = $"%{nomeFiltro}%" });
+     var resultado = await _connection.QueryAsync<EpicoModel>(selectQuery, new { nomeFiltro = $"%{nomeFiltro}%", });
      return resultado;
 }
 
-    public async Task DeletarEpico (int id)
+       public async Task DeletarEpico (int id)
     {
         const string deleteQuery =@"DELETE FROM EPICO WHERE ID_EPICO = @Id";
         await DeletarEpico(id, deleteQuery);

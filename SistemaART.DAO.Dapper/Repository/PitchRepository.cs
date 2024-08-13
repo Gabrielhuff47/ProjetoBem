@@ -1,5 +1,3 @@
-using System.Data;
-using Dapper;
 using SistemaART.DAO.Dapper.BaseRepository;
 using SistemaART.DAO.Dapper.Models;
 using SistemaART.DAO.Dapper.Repository.Contratos;
@@ -8,10 +6,10 @@ namespace SistemaART.DAO.Dapper.Repository;
 
 public class PitchRepository : BaseRepository<PitchModel>, IPitchRepository
 {   
-    private readonly IDbConnection _connection;
-    public PitchRepository(IDbConnection connection) : base(connection)
+    private readonly IDapperWrapper _dapper;
+    public PitchRepository(IDapperWrapper dapper) : base(dapper.GetDbConnection())
     {
-        _connection = connection;
+        _dapper = dapper;
     }
 
 
@@ -27,7 +25,7 @@ public class PitchRepository : BaseRepository<PitchModel>, IPitchRepository
                                     WHERE B.USUARIO_ATUALIZACAO =  @Usuario";
         
         var parameters = new { Usuario = usuario };
-        var pitchResultado = await _connection.QueryAsync<PitchReduzidoModel>(selectQuery, parameters);
+        var pitchResultado = await _dapper.QueryAsync<PitchReduzidoModel>(selectQuery, parameters);
         return pitchResultado;
     }
         public async Task<PitchModel> ListarPitchPorId(int id)
@@ -50,7 +48,7 @@ public class PitchRepository : BaseRepository<PitchModel>, IPitchRepository
                                     WHERE B.ID_PITCH =  @PitchId";
         
         var parameters = new { PitchId = id };
-        var pitchResultado = await _connection.QuerySingleOrDefaultAsync<PitchModel>(selectQuery, parameters);
+        var pitchResultado = await _dapper.QuerySingleOrDefaultAsync<PitchModel>(selectQuery, parameters);
         return pitchResultado;
     }
 
@@ -75,4 +73,14 @@ public class PitchRepository : BaseRepository<PitchModel>, IPitchRepository
         return await ListarTodos(selectQuery);
     }
 
+    public async Task AtualizarPitchSituacao(int idPitch, int novaSituacao)
+    {
+         const string updateQuery = @"UPDATE PITCH
+                                      SET SITUACAO = @NovaSituacao
+                                      WHERE ID_PITCH = @IdPitch";
+
+        var parameters = new { IdPitch = idPitch, NovaSituacao = novaSituacao};
+
+        await _dapper.ExecuteAsync(updateQuery, parameters);       
+    }
 }

@@ -8,9 +8,11 @@ namespace SistemaART.BLL;
 public class EpicoService : IEpicoService
 {
     private readonly IEpicoRepository _epicoRepository;
+   
     public EpicoService(IEpicoRepository epicoRepository)
     {
         _epicoRepository = epicoRepository;
+      
     }
 
     public async Task<EpicoDto?> ConsultarEpicoPorId(int id)
@@ -20,16 +22,16 @@ public class EpicoService : IEpicoService
     }
     public async Task GravarEpico(EpicoGravarDto epico)
     {
-        //regras de negocio
+
         if (epico.DataFim.HasValue)
         {
             if (epico.DataFim < epico.DataInicio)
             {
-                throw new ArgumentException("A data de finalização não pode ser menor que a data de início.");
+                throw new ArgumentException("A data fim não pode ser menor que a data de início.");
             }
             if (epico.DataFim > DateTime.Now)
             {
-                throw new ArgumentException("A data de finalização não pode ser maior que a data atual.");
+                throw new ArgumentException("A data fim não pode ser maior que a data atual.");
             }
         }
 
@@ -67,11 +69,21 @@ public class EpicoService : IEpicoService
 
         epico.NomeEpico = epico.NomeEpico.ToUpper();
         await _epicoRepository.GravarEpico(epico.Convert());
+
+        // if (epico.IdSituacao == 6 || epico.IdSituacao == 7)
+        // {
+        //     await _pitchRepository.AtualizarPitchSituacao(epico.IdPitch, epico.IdSituacao);
+        // }                 PRECISO AJUSTAR ESSA PARTE
+
+
     }
     public async Task<IEnumerable<EpicoReduzidoDto>> ListarEpico(string usuarioAtualizacao)
     {
         var epicos = await _epicoRepository.ListarEpico(usuarioAtualizacao);
-       
+        if(string.IsNullOrEmpty(usuarioAtualizacao))
+        {
+            throw new ArgumentException("O usuarioAtualização não pode ser nulo ou vazio");
+        }
 
         return epicos.Select(p => new EpicoReduzidoDto
         {
@@ -80,11 +92,13 @@ public class EpicoService : IEpicoService
         });
     }
 
-    public async Task<IEnumerable<EpicoDto?>> ConsultarEpicoPorCaracteres(string nomeFiltro)
+    public async Task<IEnumerable<EpicoDto?>> ConsultarEpicoPorCaracteres(string nomeFiltro, string usuarioAtualizacao)
 
     {
-        return (await _epicoRepository.ConsultarEpicoPorCaracteres(nomeFiltro)).Convert();
+        var epicos = await _epicoRepository.ConsultarEpicoPorCaracteres(nomeFiltro);
+         return epicos.Where(e => e.UsuarioAtualizacao.Trim() == usuarioAtualizacao).Convert();
 
+        
 
     }
 

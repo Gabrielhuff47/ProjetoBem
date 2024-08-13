@@ -1,13 +1,11 @@
-using AutoFixture;
 using Moq;
 using SistemaART.BLL;
-using SistemaART.BLL.DTO;
 using SistemaART.DAO.Dapper.Models;
 using SistemaART.DAO.Dapper.Repository.Contratos;
 
-namespace Tests.ServiceTest;
+namespace Tests.ServiceTest.PitchTests;
 
-public class ListarPitchPorUsuarioTests
+public class ListarPitchPorUsuarioTest
 {
     [Fact]
   public async Task ListaPitch_Usuario_RetornaPitchReduzido()

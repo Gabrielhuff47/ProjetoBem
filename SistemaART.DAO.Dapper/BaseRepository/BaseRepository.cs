@@ -1,6 +1,7 @@
 
 using System.Data;
 using System.Data.Common;
+using System.Runtime.CompilerServices;
 using Dapper;
 
 namespace SistemaART.DAO.Dapper.BaseRepository;
@@ -22,27 +23,27 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
     public async Task<IEnumerable<T?>> ConsultarEpicoPorCaracteres(string nomeFiltro, string selectQuery)
     {
         using IDbConnection dbConnection = _connection;
-        dbConnection.Open();   
-        
-         return await dbConnection.QueryAsync<T>(selectQuery);
+        dbConnection.Open();
+
+        return await dbConnection.QueryAsync<T>(selectQuery);
     }
-    public async Task <T?> ConsultarEpicoPorId(int id, string selectQuery)
+    public async Task<T?> ConsultarEpicoPorId(int id, string selectQuery)
     {
-        return await _connection.QueryFirstOrDefaultAsync<T?>(selectQuery, new {Id = id});
+        return await _connection.QueryFirstOrDefaultAsync<T?>(selectQuery, new { Id = id });
     }
     public async Task GravarEpico(object parameters, string insertQuery)
     {
         using IDbConnection dbConnection = _connection;
         dbConnection.Open();
 
-         await _connection.ExecuteAsync(insertQuery, parameters);
+        await _connection.ExecuteAsync(insertQuery, parameters);
     }
     public async Task<IEnumerable<T>> ListarEpico(string selectQuery)
     {
         using IDbConnection dbConnection = _connection;
         dbConnection.Open();
 
-          return await dbConnection.QueryAsync<T>(selectQuery);
+        return await dbConnection.QueryAsync<T>(selectQuery);
     }
     public async Task<IEnumerable<T>> ListarPitchPorUsuario(string usuario, string selectQuery)
     {
@@ -50,18 +51,18 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         dbConnection.Open();
 
         var param = new DynamicParameters();
-        param.Add("Usuario", usuario);       //Previne SQl Injection
+        param.Add("Usuario", usuario);      
 
         return await dbConnection.QueryAsync<T>(selectQuery, param);
     }
 
-        public async Task<IEnumerable<T>> ListarPitchPorId(int id, string selectQuery)
+    public async Task<IEnumerable<T>> ListarPitchPorId(int id, string selectQuery)
     {
         using IDbConnection dbConnection = _connection;
         dbConnection.Open();
 
         var param = new DynamicParameters();
-        param.Add("id", id);       //Previne SQl Injection
+        param.Add("id", id);       
 
         return await dbConnection.QueryAsync<T>(selectQuery, param);
     }
@@ -80,7 +81,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         }
     }
 
-    public async Task<T?> ObterPorId(int id, string selectQuery)    //T? => pode retornar um nullo
+    public async Task<T?> ObterPorId(int id, string selectQuery)   
     {
         using IDbConnection dbConnection = _connection;
         dbConnection.Open();
@@ -90,20 +91,22 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
 ;
         return await dbConnection.QueryFirstOrDefaultAsync<T>(selectQuery, param);
     }
-    public async Task Atualizar(DynamicParameters parameters, string updateQuery)
+
+
+    public async Task DeletarEpico(int id,string deleteQuery)
     {
+        using IDbConnection dbConnection = _connection;
+        dbConnection.Open();
+
+        await dbConnection.ExecuteAsync(deleteQuery, new { Id = id });       
+    }
+    public async Task AtualizarPitchSituacao(DynamicParameters parameters, string updateQuery)
+    {
+
         using IDbConnection dbConnection = _connection;
         dbConnection.Open();
 
         await dbConnection.ExecuteAsync(updateQuery, parameters);
-    }
-
-    public async Task DeletarEpico(int id, string deleteQuery)
-    {
-        using IDbConnection dbConnection = _connection;
-        dbConnection.Open();
-
-        await dbConnection.ExecuteAsync(deleteQuery, new { Id = id });       //Id = id criacao de um objeto anonimo
     }
 
 
