@@ -44,7 +44,7 @@ public class DeletarEpicoTest
     }
 
     [Fact]
-    public async Task DeletarEpicoRetornaErro()
+    public async Task DeletarEpico_RetornaErro()
     {
         // Arrange
         var epicoMockado = new EpicoModel()

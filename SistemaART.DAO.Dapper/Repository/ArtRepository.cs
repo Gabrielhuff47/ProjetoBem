@@ -7,10 +7,10 @@ namespace SistemaART.DAO.Dapper.Repository;
 
 public class ArtRepository : BaseRepository<ArtModel>, IArtRepository
 {   
-    private readonly IDbConnection _connection;
-    public ArtRepository(IDbConnection connection) : base(connection)
+    private readonly IDapperWrapper _dapper;
+    public ArtRepository(IDapperWrapper dapper) : base(dapper.GetDbConnection())
     {
-        _connection = connection;
+        _dapper = dapper;
     }
 
     public async Task<IEnumerable<ArtModel>> ListarTodos()
@@ -29,7 +29,7 @@ public class ArtRepository : BaseRepository<ArtModel>, IArtRepository
                                 EpicoDataFim
                               FROM V_Art ";
 
-        return await ListarTodos(selectQuery);
+        return await _dapper.QueryAsync<ArtModel>(selectQuery);
     }
 
 }

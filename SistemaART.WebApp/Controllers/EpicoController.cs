@@ -19,6 +19,7 @@ public class EpicoController : ControllerBase
     }
 
     [HttpPost("GravarEpico")]
+    [Authorize]
     public async Task<IActionResult> Post(EpicoGravarDto epico)
     {
         var usuarioAtualizacao = User.FindFirst(ClaimTypes.Name)?.Value;
@@ -29,6 +30,7 @@ public class EpicoController : ControllerBase
     }
 
     [HttpGet("id")]
+    [Authorize]
     public async Task<IActionResult> Get(int id)
     {
         var usuario = User.FindFirst(ClaimTypes.Name)?.Value.Trim();
@@ -48,6 +50,7 @@ public class EpicoController : ControllerBase
     }
 
     [HttpGet("ListarEpicos")]
+    [Authorize]
     public async Task<IActionResult> Get()
     {
         var usuario = User.FindFirst(ClaimTypes.Name)?.Value.Trim();
@@ -57,6 +60,7 @@ public class EpicoController : ControllerBase
     }
 
     [HttpGet("ConsultaEpicoPorCaracteres")]
+    [Authorize]
     public async Task<IActionResult> Get(string nomeFiltro)
     {
         var usuarioAtualizacao = User.FindFirst(ClaimTypes.Name)?.Value.Trim();
@@ -71,6 +75,7 @@ public class EpicoController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<IActionResult> Delete(int id)
     {
         var usuario = User.FindFirst(ClaimTypes.Name)?.Value.Trim();

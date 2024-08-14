@@ -22,7 +22,7 @@ public class ListarEpicoPorUsuarioTest
     {
         // Arrange
      
-        var usuarioAtualizacao = "sistema";
+        var usuarioAtualizacao = "SISTEMA";
         var epicos = new List<EpicoReduzidoModel>
         {
             new EpicoReduzidoModel {IdEpico = 1, NomeEpico ="Portal"},

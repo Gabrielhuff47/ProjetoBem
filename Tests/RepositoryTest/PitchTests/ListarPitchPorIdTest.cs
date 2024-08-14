@@ -1,7 +1,7 @@
 using Moq;
 using SistemaART.DAO.Dapper.Models;
-using SistemaART.DAO.Dapper.Repository;
-using SistemaART.DAO.Dapper.Repository.Contratos;
+using SistemaART.DAO.Dapper.BaseRepository;
+
 
 namespace Tests.RepositoryTest.PitchTests;
 

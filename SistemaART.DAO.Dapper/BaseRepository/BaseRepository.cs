@@ -87,7 +87,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         dbConnection.Open();
 
         var param = new DynamicParameters();
-        param.Add("Id", id)        //Previne SQl Injection
+        param.Add("Id", id)        
 ;
         return await dbConnection.QueryFirstOrDefaultAsync<T>(selectQuery, param);
     }

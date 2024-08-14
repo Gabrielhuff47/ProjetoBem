@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SistemaART.BLL;
 using SistemaART.BLL.Contratos;
+using SistemaART.DAO.Dapper.BaseRepository;
 using SistemaART.DAO.Dapper.Repository;
 using SistemaART.DAO.Dapper.Repository.Contratos;
 

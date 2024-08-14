@@ -13,7 +13,7 @@ public class ListarEpicoPorCaracteresTest
         // Arrange
             
             var nomeFiltro = "Epi";
-            var usuarioAtualizacao = "gabriel";
+            var usuarioAtualizacao = "GABRIEL";
             var epicos = new List<EpicoModel>
             {
                 new EpicoModel
@@ -24,7 +24,7 @@ public class ListarEpicoPorCaracteresTest
                     NomeEpico = "Epico",
                     DataInicio = new DateTime(2024, 08, 03),
                     DataFim = new DateTime(2024, 08, 10),
-                    UsuarioAtualizacao = "sistema",
+                    UsuarioAtualizacao = "SISTEMA",
                     DataAtualizacao = DateTime.Now,
                 },
                 new EpicoModel
@@ -35,7 +35,7 @@ public class ListarEpicoPorCaracteresTest
                     NomeEpico = "Epico 2",
                     DataInicio = new DateTime(2024, 08, 05),
                     DataFim = new DateTime(2024, 08, 11),
-                    UsuarioAtualizacao = "gabriel",
+                    UsuarioAtualizacao = "GABRIEL",
                     DataAtualizacao = DateTime.Now,
                 }
             };

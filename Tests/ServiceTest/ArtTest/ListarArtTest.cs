@@ -5,18 +5,18 @@ using SistemaART.DAO.Dapper.Repository.Contratos;
 
 namespace Tests.ServiceTest.ArtTest;
 
-public class ListarArt
+public class ListarArtTest
 {
     private readonly Mock<IArtRepository> artRepositoryMock;
     private readonly ArtService artService;
-    public ListarArt()
+    public ListarArtTest()
     {
         artRepositoryMock = new Mock<IArtRepository>();
         artService = new ArtService(artRepositoryMock.Object);
     }
 
     [Fact]
-    public async Task ListarTodosAgrupados_DeveRetornarListaDeTremDto()
+    public async Task ListarArt_DeveRetornarListaDeTremDto()
     {
         // Arrange
         var artList = new List<ArtModel>
@@ -30,9 +30,9 @@ public class ListarArt
             EpicoSituacao = 2,
             EpicoDataInicio = new DateTime (2024, 01, 25),
             EpicoDataFim = new DateTime (2024, 02, 28), 
-            Mensagem = "Em atraso" },
-
-            new ArtModel 
+            Mensagem = "Em atraso" 
+            },
+              new ArtModel 
             { NomeTime = "MASTER OF BUGS",
              NomeTribo = "CONTRATACAO", 
              NomeArea = "SISTEMAS",
@@ -49,7 +49,6 @@ public class ListarArt
 
         // Assert
         Assert.NotNull(result);
-        Assert.NotEmpty(result);
         Assert.Equal(1, result.Count());
         Assert.Equal("MASTER OF BUGS", result.First().NomeTime);
         Assert.Equal("CONTRATACAO", result.First().NomeTribo);

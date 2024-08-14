@@ -2,7 +2,7 @@ using SistemaART.DAO.Dapper.BaseRepository;
 using SistemaART.DAO.Dapper.Models;
 using SistemaART.DAO.Dapper.Repository.Contratos;
 
-namespace SistemaART.DAO.Dapper.Repository;
+namespace SistemaART.DAO.Dapper.BaseRepository;
 
 public class PitchRepository : BaseRepository<PitchModel>, IPitchRepository
 {   

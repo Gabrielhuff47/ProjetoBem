@@ -1,6 +1,6 @@
 using Moq;
-using SistemaART.DAO.Dapper.Repository;
-using SistemaART.DAO.Dapper.Repository.Contratos;
+using SistemaART.DAO.Dapper.BaseRepository;
+
 using Xunit;
 
 namespace Tests.RepositoryTest.PitchTests;

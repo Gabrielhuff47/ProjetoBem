@@ -9,10 +9,10 @@ namespace SistemaART.DAO.Dapper.Repository;
 
 public class EpicoRepository : BaseRepository<EpicoModel>, IEpicoRepository
 {
-    private readonly IDbConnection _connection;
-    public EpicoRepository(IDbConnection connection) : base(connection)
+    private readonly IDapperWrapper _dapper;
+    public EpicoRepository(IDapperWrapper dapper) : base(dapper.GetDbConnection())
     {
-        _connection = connection;
+        _dapper = dapper;
     }
 
 
@@ -28,14 +28,14 @@ public class EpicoRepository : BaseRepository<EpicoModel>, IEpicoRepository
                                         ORDER BY NomeEpico";
 
         var parameters = new { Usuario = usuario};
-        var epicoResultado = await _connection.QueryAsync<EpicoReduzidoModel>(selectQuery, parameters);
+        var epicoResultado = await _dapper.QueryAsync<EpicoReduzidoModel>(selectQuery, parameters);
         return epicoResultado;
 
     }
      public async Task<EpicoModel?> ObterEpicoPorPitchId(int idPitch)
     {
         const string query = "SELECT ID_PITCH FROM EPICO WHERE ID_PITCH = @idPitch";
-         return await _connection.QueryFirstOrDefaultAsync<EpicoModel>(query, new { IdPitch = idPitch });
+         return await _dapper.QueryFirstOrDefaultAsync<EpicoModel>(query, new { IdPitch = idPitch });
     }
 
     public async Task GravarEpico(EpicoModel epico)
@@ -52,7 +52,8 @@ public class EpicoRepository : BaseRepository<EpicoModel>, IEpicoRepository
     parameters.Add("@UsuarioAtualizacao", epico.UsuarioAtualizacao);
     parameters.Add("@DataAtualizacao", epico.DataAtualizacao);
 
-    await GravarEpico(parameters, insertQuery);
+    await _dapper.ExecuteAsync(insertQuery, parameters);
+   
     }
     
     public async Task<EpicoModel?> ConsultarEpicoPorId(int id)
@@ -70,7 +71,7 @@ public class EpicoRepository : BaseRepository<EpicoModel>, IEpicoRepository
 										FROM EPICO A
 										INNER JOIN SITUACAO B ON B.ID_SITUACAO = A.ID_SITUACAO
 										WHERE A.ID_EPICO = @Id";
-        return await ConsultarEpicoPorId(id, selectQuery);
+        return await _dapper.QuerySingleOrDefaultAsync<EpicoModel>(selectQuery, new {Id = id});
     }
 
     public async Task<IEnumerable<EpicoModel?>> ConsultarEpicoPorCaracteres(string nomeFiltro)
@@ -90,13 +91,13 @@ public class EpicoRepository : BaseRepository<EpicoModel>, IEpicoRepository
 										INNER JOIN SITUACAO B ON B.ID_SITUACAO = A.ID_SITUACAO
 										WHERE A.NOME LIKE @NomeFiltro ";
     
-     var resultado = await _connection.QueryAsync<EpicoModel>(selectQuery, new { nomeFiltro = $"%{nomeFiltro}%", });
+     var resultado = await _dapper.QueryAsync<EpicoModel>(selectQuery, new { nomeFiltro = $"%{nomeFiltro}%", });
      return resultado;
 }
 
        public async Task DeletarEpico (int id)
     {
-        const string deleteQuery =@"DELETE FROM EPICO WHERE ID_EPICO = @Id";
-        await DeletarEpico(id, deleteQuery);
+        const string deleteQuery = @"DELETE FROM EPICO WHERE ID_EPICO = @Id";
+        await _dapper.ExecuteAsync(deleteQuery, new {Id = id});
     }
 }

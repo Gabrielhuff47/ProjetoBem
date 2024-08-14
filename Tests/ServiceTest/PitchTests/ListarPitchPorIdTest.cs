@@ -8,7 +8,7 @@ namespace Tests.ServiceTest.PitchTests;
 public class ListarPitchPorIdTest
 {
     [Fact]
-    public async Task ListaPitch_Id_RetornaPitch()
+    public async Task ListarPitch_Id_RetornaPitch()
     {
         // Arrange
         var id = 3;

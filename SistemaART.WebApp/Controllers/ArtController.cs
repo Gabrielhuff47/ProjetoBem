@@ -23,11 +23,4 @@ public class ArtController : ControllerBase
             return Ok(arts);
         }
         
-        [HttpGet("all/test")]
-        public async Task<IActionResult> GetAllArtTest()
-        {
-            var pitches = await _artService.ListarTodos();
-            return Ok(pitches);
-        }
-
 }
