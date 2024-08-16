@@ -3,13 +3,13 @@ using SistemaART.DAO.Dapper.BaseRepository;
 using SistemaART.DAO.Dapper.Models;
 using SistemaART.DAO.Dapper.Repository;
 
-namespace Tests.RepositoryTest.ArtTest;
+namespace Tests.ArtTest;
 
-public class ListarArtTest
+public class ListarArtRepositoryTest
 {
     private readonly Mock<IDapperWrapper> mockDapper;
     private readonly ArtRepository artRepository;
-    public ListarArtTest()
+    public ListarArtRepositoryTest()
     {
         mockDapper = new Mock<IDapperWrapper>();
         artRepository = new ArtRepository(mockDapper.Object);

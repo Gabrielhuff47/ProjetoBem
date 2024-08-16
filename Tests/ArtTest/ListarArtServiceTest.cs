@@ -3,13 +3,13 @@ using SistemaART.BLL;
 using SistemaART.DAO.Dapper.Models;
 using SistemaART.DAO.Dapper.Repository.Contratos;
 
-namespace Tests.ServiceTest.ArtTest;
+namespace Tests.ArtTest;
 
-public class ListarArtTest
+public class ListarArtServiceTest
 {
     private readonly Mock<IArtRepository> artRepositoryMock;
     private readonly ArtService artService;
-    public ListarArtTest()
+    public ListarArtServiceTest()
     {
         artRepositoryMock = new Mock<IArtRepository>();
         artService = new ArtService(artRepositoryMock.Object);
