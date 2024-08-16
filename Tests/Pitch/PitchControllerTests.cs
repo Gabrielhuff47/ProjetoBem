@@ -6,7 +6,7 @@ using SistemaART.BLL.Contratos;
 using SistemaART.BLL.DTO;
 using SistemaART.WebApp.Controllers;
 
-namespace Tests.PitchTests;
+namespace Tests.Pitch;
 
 public class PitchControllerTests
 {

@@ -3,7 +3,7 @@ using SistemaART.DAO.Dapper.BaseRepository;
 using SistemaART.DAO.Dapper.Models;
 using SistemaART.DAO.Dapper.Repository;
 
-namespace Tests.EpicoTests;
+namespace Tests.Epico;
 
 public class EpicoRepositoryTests
 {

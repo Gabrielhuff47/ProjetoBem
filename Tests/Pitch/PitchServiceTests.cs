@@ -3,7 +3,7 @@ using SistemaART.BLL;
 using SistemaART.DAO.Dapper.Models;
 using SistemaART.DAO.Dapper.Repository.Contratos;
 
-namespace Tests.PitchTests;
+namespace Tests.Pitch;
 
 public class PitchServiceTests
 {

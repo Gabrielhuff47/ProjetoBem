@@ -2,7 +2,7 @@ using Moq;
 using SistemaART.BLL;
 using SistemaART.DAO.Dapper.Repository.Contratos;
 
-namespace Tests.AutenticacaoTest;
+namespace Tests.Autenticacao;
 
 public class ValidaUsuario
 {

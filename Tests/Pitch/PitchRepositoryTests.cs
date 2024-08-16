@@ -3,7 +3,7 @@ using SistemaART.DAO.Dapper.BaseRepository;
 using SistemaART.DAO.Dapper.Models;
 
 
-namespace Tests.PitchTests;
+namespace Tests.Pitch;
 
 public class PitchRepositoryTests
 {

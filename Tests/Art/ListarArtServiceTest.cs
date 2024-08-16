@@ -3,7 +3,7 @@ using SistemaART.BLL;
 using SistemaART.DAO.Dapper.Models;
 using SistemaART.DAO.Dapper.Repository.Contratos;
 
-namespace Tests.ArtTest;
+namespace Tests.Art;
 
 public class ListarArtServiceTest
 {

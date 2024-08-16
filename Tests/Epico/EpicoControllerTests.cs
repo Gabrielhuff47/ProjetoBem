@@ -6,7 +6,7 @@ using SistemaART.BLL.Contratos;
 using SistemaART.BLL.DTO;
 using SistemaART.WebApp.Controllers;
 
-namespace Tests.EpicoTests;
+namespace Tests.Epico;
 
 public class EpicoControllerTests
 {

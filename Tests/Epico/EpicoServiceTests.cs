@@ -4,7 +4,7 @@ using SistemaART.BLL.DTO;
 using SistemaART.DAO.Dapper.Models;
 using SistemaART.DAO.Dapper.Repository.Contratos;
 
-namespace Tests.EpicoTests;
+namespace Tests.Epico;
 
 public class EpicoServiceTests
 {

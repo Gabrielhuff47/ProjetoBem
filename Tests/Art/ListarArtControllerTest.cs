@@ -4,7 +4,7 @@ using SistemaART.BLL.Contratos;
 using SistemaART.BLL.DTO;
 using SistemaART.WebApp.Controllers;
 
-namespace Tests.ArtTest;
+namespace Tests.Art;
 
 public class ListarArtControllerTest
 {
