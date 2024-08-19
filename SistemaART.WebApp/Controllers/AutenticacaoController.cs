@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SistemaART.BLL.Contratos;
 using SistemaART.DAO.Dapper.Models;
 
+
 namespace SistemaART.WebApp.Controllers;
 
 [ApiController]
@@ -19,7 +20,7 @@ public class AutenticacaoController : ControllerBase
     }
 
     [HttpPost("Entrar")]
-    public async Task<IActionResult> Login([FromBody] Autenticacao Entrar)
+    public async Task<IActionResult> Login([FromBody] AutenticacaoModel Entrar)
     {
         var resultado = await _autenticacaoService.ValidarUsuario(Entrar.Usuario, Entrar.Senha);
          Console.WriteLine(resultado);

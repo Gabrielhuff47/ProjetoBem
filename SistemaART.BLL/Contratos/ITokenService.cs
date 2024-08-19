@@ -4,5 +4,5 @@ namespace SistemaART.BLL.Contratos;
 
 public interface ITokenService
 {
-    string GenerateToken(Autenticacao usuario);
+    string GenerateToken(AutenticacaoModel usuario);
 }

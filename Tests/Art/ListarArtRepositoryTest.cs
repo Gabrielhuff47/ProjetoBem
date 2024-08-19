@@ -16,7 +16,7 @@ public class ListarArtRepositoryTest
     }
 
     [Fact]
-    public async Task ListarArt_Retorna()
+    public async Task ListarArt_RetornaArt()
     {
         //Arrange
         var artList = new List<ArtModel>

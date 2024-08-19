@@ -15,11 +15,14 @@ public class PitchService : IPitchService
     public async Task<IEnumerable<PitchReduzidoDto>> ListarPitchPorUsuario(string usuario)
     {
          var pitches = await _pitchRepository.ListarPitchPorUsuario(usuario);
+    
         return pitches.Select(p => new PitchReduzidoDto
         {
             IdPitch = p.IdPitch,
             NomePitch = p.NomePitch,
+    
         });
+
     }
     
     public async Task<PitchDto> ListarPitchPorId(int id)

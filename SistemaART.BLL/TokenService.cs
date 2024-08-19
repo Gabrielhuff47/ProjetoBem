@@ -19,7 +19,7 @@ public class TokenService : ITokenService
         {
             _configuration = configuration;
         }
-      public string GenerateToken(Autenticacao usuario)
+      public string GenerateToken(AutenticacaoModel usuario)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);

@@ -46,7 +46,7 @@ public class PitchController : ControllerBase
             var pitch = await _pitchService.ListarPitchPorId(id);
             var usuario = User.FindFirst(ClaimTypes.Name)?.Value;
 
-            if (pitch == null)
+            if (pitch == null )
             {
                 return NotFound("pitch não existente!");
             }

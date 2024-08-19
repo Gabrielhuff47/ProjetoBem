@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SistemaART.BLL.Contratos;
 
@@ -17,6 +18,7 @@ public class ArtController : ControllerBase
     }
 
       [HttpGet("all")]
+      [Authorize]
         public async Task<IActionResult> GetAllArt()
         {
             var arts = await _artService.ListarTodosAgrupados();

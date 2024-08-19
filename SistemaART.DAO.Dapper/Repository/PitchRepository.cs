@@ -16,13 +16,11 @@ public class PitchRepository : BaseRepository<PitchModel>, IPitchRepository
     public async Task<IEnumerable<PitchReduzidoModel>> ListarPitchPorUsuario(string usuario)
     {
         const string selectQuery = @"SELECT 
-                                        B.ID_PITCH AS IdPitch, 
-                                        B.NOME AS NomePitch, 
-                                        B.USUARIO_ATUALIZACAO AS UsuarioAtualizacao                                        
-                                    FROM SITUACAO A
-                                    INNER JOIN PITCH B ON B.SITUACAO = A.ID_SITUACAO 
-                                    INNER JOIN [TIME] C ON B.ID_TIME = C.ID_TIME
-                                    WHERE B.USUARIO_ATUALIZACAO =  @Usuario";
+                                        A.ID_PITCH AS IdPitch, 
+                                        A.NOME AS NomePitch, 
+                                        B.NOME AS NomeTime,  
+                                     FROM PITCH 
+                                     WHERE A.USUARIO_ATUALIZACAO = @Usuario";
         
         var parameters = new { Usuario = usuario };
         var pitchResultado = await _dapper.QueryAsync<PitchReduzidoModel>(selectQuery, parameters);
@@ -45,9 +43,9 @@ public class PitchRepository : BaseRepository<PitchModel>, IPitchRepository
                                     FROM SITUACAO A
                                     INNER JOIN PITCH B ON B.SITUACAO = A.ID_SITUACAO 
                                     INNER JOIN [TIME] C ON B.ID_TIME = C.ID_TIME
-                                    WHERE B.ID_PITCH =  @PitchId";
+                                    WHERE B.ID_PITCH =  @IdPitch";
         
-        var parameters = new { PitchId = id };
+        var parameters = new { IdPitch = id };
         var pitchResultado = await _dapper.QuerySingleOrDefaultAsync<PitchModel>(selectQuery, parameters);
         return pitchResultado;
     }

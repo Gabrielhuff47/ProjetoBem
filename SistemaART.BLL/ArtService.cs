@@ -25,7 +25,7 @@ public class ArtService : IArtService
     {
         var dados = await _artRepository.ListarTodos();
 
-        var groupedData = dados
+        var agruparDados = dados
             .GroupBy(d => new { d.NomeTime, d.NomeTribo, d.NomeArea })
             .Select(g => new TremDto
             {
@@ -39,8 +39,8 @@ public class ArtService : IArtService
                    {
                        NomeTime = d.NomeTime,
                        NomePitch = d.NomePitch
-                   })
-                   .ToList(),
+                   }).ToList(),
+
                 EmAndamentos = g.Where(d => d.EpicoSituacao == 04)
                        .OrderByDescending(d => d.EpicoDataAtualizacao)
                        .Take(3)
@@ -57,8 +57,8 @@ public class ArtService : IArtService
                                Mensagem = atraso ? d.Mensagem : null
                            };
 
-                       })
-                       .ToList(),
+                       }).ToList(),
+
                 Finalizados = g.Where(d => d.EpicoSituacao == 05)
                       .OrderByDescending(d => d.EpicoDataFim)
                       .Take(5)
@@ -73,12 +73,11 @@ public class ArtService : IArtService
 
                           };
 
-                      })
-                      .ToList()
+                      }).ToList()
             })
             .ToList();
 
-        return groupedData;
+        return agruparDados;
     }
 }
 

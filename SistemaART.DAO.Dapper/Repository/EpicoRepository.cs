@@ -46,7 +46,7 @@ public class EpicoRepository : BaseRepository<EpicoModel>, IEpicoRepository
     var parameters = new DynamicParameters();
     parameters.Add("@IdPitch", epico.IdPitch);
     parameters.Add("@IdSituacao", epico.IdSituacao);
-    parameters.Add("@Nome", new DbString { Value = epico.NomeEpico, IsFixedLength = true, Length = 100, IsAnsi = true });
+    parameters.Add("@Nome", new DbString { Value = epico.NomeEpico, IsFixedLength = false, Length = 100, IsAnsi = true });
     parameters.Add("@DataInicio", epico.DataInicio.HasValue ? epico.DataInicio.Value : (object)null);
     parameters.Add("@DataFim", epico.DataFim.HasValue ? epico.DataFim.Value : (object)null);
     parameters.Add("@UsuarioAtualizacao", epico.UsuarioAtualizacao);
@@ -85,7 +85,7 @@ public class EpicoRepository : BaseRepository<EpicoModel>, IEpicoRepository
 										A.DATA_FIM AS DataFim,
 										A.ID_SITUACAO AS IdSituacao,
 										B.DESCRICAO As Descricao, 
-										A.USUARIO_ATUALIZACAO AS UsuarioAtualizacao,
+										TRIM(A.USUARIO_ATUALIZACAO) AS UsuarioAtualizacao,
 										A.DATA_ATUALIZACAO AS DataAtualizacao
 										FROM EPICO A
 										INNER JOIN SITUACAO B ON B.ID_SITUACAO = A.ID_SITUACAO

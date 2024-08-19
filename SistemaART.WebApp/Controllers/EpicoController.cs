@@ -38,12 +38,12 @@ public class EpicoController : ControllerBase
 
         if (epico == null)
         {
-            return NotFound();
+            return NotFound("Epico inexistente");
         }
 
         if (epico.UsuarioAtualizacao.Trim() != usuario)
         {
-            return Unauthorized();
+            return Unauthorized("Epico inexistente");
         }
 
         return Ok(epico);

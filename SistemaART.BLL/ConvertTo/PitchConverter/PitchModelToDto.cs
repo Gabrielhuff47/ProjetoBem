@@ -9,7 +9,7 @@ public static class PitchModelToDto
     {
         return new PitchDto
         {
-            IdPitch = pitch.IdPitch,
+          IdPitch = pitch.IdPitch,
             IdTime = pitch.IdTime,
             NomePitch = pitch.NomePitch,
             NomeTime = pitch.NomeTime,
