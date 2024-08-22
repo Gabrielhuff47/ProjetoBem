@@ -8,5 +8,6 @@ public interface IPitchRepository
   Task<IEnumerable<PitchModel>> ListarTodos();
   Task<PitchModel> ListarPitchPorId(int id);
   Task AtualizarPitchSituacao(int idPitch, int novaSituacao);
+  Task <IEnumerable<PitchMensagemModel>> ObterPitchs();
 
 }

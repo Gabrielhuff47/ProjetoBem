@@ -8,10 +8,12 @@ namespace SistemaART.BLL;
 public class EpicoService : IEpicoService
 {
     private readonly IEpicoRepository _epicoRepository;
+    private readonly IPitchRepository _pitchRepository;
    
-    public EpicoService(IEpicoRepository epicoRepository)
+    public EpicoService(IEpicoRepository epicoRepository, IPitchRepository pitchRepository)
     {
         _epicoRepository = epicoRepository;
+        _pitchRepository = pitchRepository;
       
     }
 
@@ -70,10 +72,10 @@ public class EpicoService : IEpicoService
         epico.NomeEpico = epico.NomeEpico.ToUpper();
         await _epicoRepository.GravarEpico(epico.Convert());
 
-        // if (epico.IdSituacao == 6 || epico.IdSituacao == 7)
-        // {
-        //     await _pitchRepository.AtualizarPitchSituacao(epico.IdPitch, epico.IdSituacao);
-        // }                 PRECISO AJUSTAR ESSA PARTE
+        if (epico.IdSituacao == 6 || epico.IdSituacao == 7)
+        {
+            await _pitchRepository.AtualizarPitchSituacao(epico.IdPitch, epico.IdSituacao);
+        }               
 
 
     }

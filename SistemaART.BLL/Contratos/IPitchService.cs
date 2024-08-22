@@ -8,7 +8,8 @@ public interface IPitchService
     Task <PitchDto> ListarPitchPorId(int id);
     Task<IEnumerable<PitchDto>> ListarTodos();
     Task AtualizarSituacaoPitch(int idPitch, int novaSituacao);
-    
+    Task AtualizarSituacaoPitchEmSegundoPlano ();
+
 
 }
 

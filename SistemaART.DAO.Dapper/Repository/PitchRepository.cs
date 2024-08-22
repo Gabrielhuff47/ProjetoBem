@@ -1,3 +1,4 @@
+using System.Reflection.Metadata.Ecma335;
 using SistemaART.DAO.Dapper.BaseRepository;
 using SistemaART.DAO.Dapper.Models;
 using SistemaART.DAO.Dapper.Repository.Contratos;
@@ -16,11 +17,11 @@ public class PitchRepository : BaseRepository<PitchModel>, IPitchRepository
     public async Task<IEnumerable<PitchReduzidoModel>> ListarPitchPorUsuario(string usuario)
     {
         const string selectQuery = @"SELECT 
-                                        A.ID_PITCH AS IdPitch, 
-                                        A.NOME AS NomePitch, 
-                                        B.NOME AS NomeTime,  
+                                        ID_PITCH AS IdPitch, 
+                                        NOME AS NomePitch
+                                       
                                      FROM PITCH 
-                                     WHERE A.USUARIO_ATUALIZACAO = @Usuario";
+                                     WHERE USUARIO_ATUALIZACAO = @Usuario";
         
         var parameters = new { Usuario = usuario };
         var pitchResultado = await _dapper.QueryAsync<PitchReduzidoModel>(selectQuery, parameters);
@@ -78,7 +79,30 @@ public class PitchRepository : BaseRepository<PitchModel>, IPitchRepository
                                       WHERE ID_PITCH = @IdPitch";
 
         var parameters = new { IdPitch = idPitch, NovaSituacao = novaSituacao};
-
         await _dapper.ExecuteAsync(updateQuery, parameters);       
     }
+    public async Task<IEnumerable<PitchMensagemModel>> ObterPitchs()
+    {
+              const string selectQuery = @"SELECT 
+                                            A.ID_PITCH AS IdPitch,
+                                            A.NOME AS NomePitch,
+                                            A.ID_TIME AS IdTime,
+                                            C.ID_EPICO AS IdEPICO, 
+										    B.DESCRICAO,
+										    A.DATA_COMITE AS DataComite,
+										    A.SITUACAO AS Situacao,
+                                            A.USUARIO_ATUALIZACAO AS UsuarioAtualizacao,
+                                            B.MANUAL_AUTOMATICA AS ManualAutomatica,
+                                            A.DATA_ATUALIZACAO AS DataAtualizacao
+                                        FROM PITCH A 
+                                        INNER JOIN SITUACAO B 
+                                        ON B.ID_SITUACAO = A.SITUACAO
+                                        LEFT JOIN EPICO C
+                                        ON C.ID_PITCH = A.ID_PITCH
+                                        WHERE A.DATA_COMITE IS NULL AND
+                                        B.MANUAL_AUTOMATICA = 'A'";
+        
+         return await  _dapper.QueryAsync<PitchMensagemModel>(selectQuery);
+    }
+
 }

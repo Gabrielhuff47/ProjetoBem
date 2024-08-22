@@ -57,11 +57,19 @@ public class PitchController : ControllerBase
             } 
              return BadRequest("O pitch não permite que ÉPICO seja criado.");
         }
-        [HttpPut("AtualizarSituacao")]
-        public async Task<IActionResult> AtualizarSituacaoPitch(int IdPitch, int novaSituacao)
+        // [HttpPut("AtualizarSituacao")]        //ESSE ENDPOINT VAI SAIR DO MEU CODIGO A ATUALIZACAO TEM QUE SER PELO EPICO
+        // public async Task<IActionResult> AtualizarSituacaoPitch(int IdPitch, int novaSituacao)
+        // {
+        //     await _pitchService.AtualizarSituacaoPitch(IdPitch,novaSituacao);
+        //     return Ok ("Situacao do pitch atualizada");
+        // }
+
+        [HttpPut("Robo")]
+        public async Task<IActionResult> Put()
         {
-            await _pitchService.AtualizarSituacaoPitch(IdPitch,novaSituacao);
-            return Ok ("Situacao do pitch atualizada");
+            await _pitchService.AtualizarSituacaoPitchEmSegundoPlano();
+            return Ok (new {Message = "Atualização enviada com sucesso"});
         }
+        
     }   
 

@@ -1,11 +1,14 @@
 using System.Data;
 using System.Text;
+using MassTransit;
+using MassTransit.RabbitMqTransport.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SistemaART.BLL;
 using SistemaART.BLL.Contratos;
+using SistemaART.BLL.DTO;
 using SistemaART.DAO.Dapper.BaseRepository;
 using SistemaART.DAO.Dapper.Repository;
 using SistemaART.DAO.Dapper.Repository.Contratos;
@@ -14,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
 
-// Add JWT Authentication
+
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -32,9 +35,23 @@ builder.Services.AddAuthentication(x =>
     };
 });
 
+builder.Services.AddMassTransit(x =>
+{
+	x.UsingRabbitMq((context, cfg) =>
+	{
+		cfg.Host("localhost", "/", h =>
+		{
+			h.Username("guest");
+			h.Password("guest");
+		});
+	});
+});
+
+builder.Services.AddMassTransitHostedService();
+
 // Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddScoped<IDbConnection>(db => 
+builder.Services.AddScoped<IDbConnection>(db =>
     new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IDapperWrapper, DapperWrapper>();
 
@@ -49,11 +66,11 @@ builder.Services.AddScoped<IArtRepository, ArtRepository>();
 builder.Services.AddScoped<IArtService, ArtService>();
 
 // Configure Swagger
-builder.Services.AddSwaggerGen(c => 
+builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
 
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme 
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
         Description = "Insira JWT com Bearer no campo",
@@ -65,9 +82,9 @@ builder.Services.AddSwaggerGen(c =>
 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement {
     {
-        new OpenApiSecurityScheme 
+        new OpenApiSecurityScheme
         {
-            Reference = new OpenApiReference 
+            Reference = new OpenApiReference
             {
                 Type = ReferenceType.SecurityScheme,
                 Id = "Bearer"
