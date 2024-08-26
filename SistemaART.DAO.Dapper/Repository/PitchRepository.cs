@@ -104,5 +104,4 @@ public class PitchRepository : BaseRepository<PitchModel>, IPitchRepository
         
          return await  _dapper.QueryAsync<PitchMensagemModel>(selectQuery);
     }
-
 }
